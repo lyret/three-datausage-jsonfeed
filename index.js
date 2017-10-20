@@ -62,7 +62,11 @@ const readDataUsage = function () {
         })
         .end()
         .then((info) => {
-            console.log(info)
+            
+            if (settings.debug) {
+                console.log(info);
+            }
+            
             const date = moment().date();
             const daysInMonth = moment().daysInMonth();
             const daysLeft = 1 + daysInMonth - 19;
