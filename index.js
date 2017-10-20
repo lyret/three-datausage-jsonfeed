@@ -103,7 +103,6 @@ const startServer = function () {
 
 
         app.listen(settings.port);
-    }
 }
 
 moment.locale("sv");
