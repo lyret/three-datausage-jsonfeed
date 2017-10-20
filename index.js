@@ -5,17 +5,17 @@ const schedule = require('node-schedule');
 const nightmare = require('nightmare');
 const moment = require('moment');
 
-const feed = {  // TODO: URLS
+const feed = { 
     author: {
         name: "3"
     },
     title: "Datanvändning",
     description: "Aktuell dataanvändning från Mitt3",
-    favicon: "https://jsonfeed.org/graphics/icon.png",
-    feed_url: "https://jsonfeed.org/feed.json",
+    favicon: "https://jsonfeed.org/graphics/icon.png", // TODO: Update
+    feed_url: "https://jsonfeed.org/feed.json", // TODO: Update
     home_page_url: url,
     items: [],
-    user_comment: "",
+    user_comment: "", // TODO: Update
     version: "https://jsonfeed.org/version/1"
 }
 
