@@ -4,7 +4,6 @@ const http = require('http');
 const schedule = require('node-schedule');
 const nightmare = require('nightmare');
 const moment = require('moment');
-moment.locale("sv");
 
 const feed = {  // TODO: URLS
     author: {
@@ -62,17 +61,17 @@ const readDataUsage = function () {
         })
         .end()
         .then((info) => {
-            
+
             if (settings.debug) {
                 console.log(info);
             }
-            
+
             const date = moment().date();
             const daysInMonth = moment().daysInMonth();
             const daysLeft = 1 + daysInMonth - 19;
             const totalUsage = info.usage.reduce((a, b) => a + b, 0)
             const totalIncluded = info.included.reduce((a, b) => a + b, 0)
-            
+
             const percentUsed = (totalUsage / totalIncluded) * 100;
             const usageLeft = totalIncluded - totalUsage
             const percentLeft = 100 - percentUsed
@@ -93,17 +92,20 @@ const readDataUsage = function () {
         });
 }
 
-if (!settings.debug) {
-    const jobb = schedule.scheduleJob({ hour: 06, minute: 00 }, readDataUsage);
+const startServer = function () {
+    if (settings.debug) { return; }
+        const jobb = schedule.scheduleJob({ hour: 06, minute: 00 }, readDataUsage);
 
-    const app = http.createServer(function (req, res) {
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify(feed));
-    });
+        const app = http.createServer(function (req, res) {
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify(feed));
+        });
 
 
-    app.listen(settings.port);
+        app.listen(settings.port);
+    }
 }
-readDataUsage();
 
-// TODO, publish!
+moment.locale("sv");
+startServer();
+readDataUsage();
