@@ -1,0 +1,12 @@
+{
+  "name": "three-datausage-jsonfeed",
+  "version": "0.1.0",
+  "description": "Unofficial API to fetch your current data usage from the phone carrier 3 and post updates as a JSONFEED",
+  "main": "index.js",
+  "author": "Viktor Lyresten <viktor@lyresten.se>",
+  "license": "WTFPL",
+  "dependencies": {
+    "nightmare": "^2.10.0",
+    "node-schedule": "^1.2.5"
+  }
+}
