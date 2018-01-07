@@ -38,17 +38,23 @@ const readDataUsage = function () {
             let raw = [];
 
             while (true) {
-                const used = document.querySelector(`#overview-usage-summary > div > div.usage-summary-details > div > div:nth-child(1) > div:nth-child(${i}) > div > div > span.used-units.span3 > span.usage`);
-                const included = document.querySelector(`#overview-usage-summary > div > div.usage-summary-details > div > div:nth-child(1) > div:nth-child(${i}) > div > div > span.total-units.span4`);
+                let used = document.querySelector(`#overview-usage-summary > div > div.usage-summary-details > div > div:nth-child(1) > div:nth-child(${i}) > div > div > span.used-units.span3 > span.usage`);
+                let unit = document.querySelector(`#overview-usage-summary > div > div.usage-summary-details > div > div:nth-child(1) > div:nth-child(${i}) > div > div > span.used-units.span3 > span.unit`);
+                let included = document.querySelector(`#overview-usage-summary > div > div.usage-summary-details > div > div:nth-child(1) > div:nth-child(${i}) > div > div > span.total-units.span4`);
 
-                if (!used || !included) {
+                if (!used || !unit || !included) {
                     break;
                 } else {
-                    totalUsage.push(Number.parseFloat(used.innerText.trim()));
-                    totalIncluded.push(Number.parseFloat(included.innerText.trim()));
-                    raw.push(used);
-                    raw.push(included);
+                    unit = unit.innerText.trim().toLowerCase();
+                    used = Number.parseFloat(used.innerText.trim());
+                    included = Number.parseFloat(included.innerText.trim());
 
+                    raw.push({used: used, unit: unit, included: included});
+
+                    used = unit == "mb" ? used / 1000 : used;
+
+                    totalUsage.push(used);
+                    totalIncluded.push(included);
                     i++
                 }
             }
@@ -68,7 +74,7 @@ const readDataUsage = function () {
 
             const date = moment().date();
             const daysInMonth = moment().daysInMonth();
-            const daysLeft = 1 + daysInMonth - 19;
+            const daysLeft = 1 + daysInMonth - date;
             const totalUsage = info.usage.reduce((a, b) => a + b, 0)
             const totalIncluded = info.included.reduce((a, b) => a + b, 0)
 
